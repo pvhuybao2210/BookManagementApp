@@ -1,0 +1,49 @@
+﻿@model IEnumerable<BookManagementApp.Models.Publisher>
+
+@{
+    ViewBag.Title = "Danh sách nhà xuất bản";
+}
+
+<h2>DANH SÁCH NHÀ XUẤT BẢN</h2>
+
+<p>
+    @Html.ActionLink("Thêm", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Nhà xuất bản
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+           Số điện thoại
+        </th>
+        <th>
+           Số tài khoản
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountNumber)
+        </td>
+        <td>
+            @Html.ActionLink("Sửa", "Edit", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
