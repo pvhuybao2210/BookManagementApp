@@ -1,0 +1,36 @@
+﻿@model IEnumerable<BookManagementApp.Models.Stock>
+
+@{
+    ViewBag.Title = "Thống kê tồn kho";
+}
+<h2>KẾT QUẢ LỌC</h2>
+
+<h4>Sách: @ViewBag.chosenBook - Ngày: @ViewBag.chosenDate </h4>
+
+<table class="table">
+    <tr>
+        <th>
+            Tên sách
+        </th>
+        <th>
+            Số lượng
+        </th>
+        <th>
+            Thời gian
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+        </tr>
+    }
+</table>

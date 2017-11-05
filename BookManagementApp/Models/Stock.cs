@@ -11,6 +11,7 @@ namespace BookManagementApp.Models
         [Required]
         [Range(0, int.MaxValue)]
         public int Quantity { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy H:mm}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
         public virtual Book Book { get; set; }
     }
