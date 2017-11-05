@@ -29,13 +29,15 @@ namespace BookManagementApp.Controllers
             }
 
             ViewBag.Books = new SelectList(books, "ID", "Name"); 
-            //StockViewModel viewModel = new StockViewModel { Books = books, Stocks = stockResult };
 
             return View(stockResult.ToList());
         }
 
         public ActionResult StockFilter(FormCollection form)
         {
+            var books = db.Books.ToList();
+            ViewBag.Books = new SelectList(books, "ID", "Name");
+
             string tempBookID = Request.Form["Books"].ToString();
             int bookID = 0;
             if (tempBookID != "")
@@ -60,7 +62,6 @@ namespace BookManagementApp.Controllers
             }                
             else
             {
-                var books = db.Books.ToList();
                 var stocks = db.Stocks.ToList();
 
                 foreach (var b in books)

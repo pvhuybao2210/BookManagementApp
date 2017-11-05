@@ -5,7 +5,20 @@
 }
 <h2>KẾT QUẢ LỌC</h2>
 
-<h4>Sách: @ViewBag.chosenBook - Ngày: @ViewBag.chosenDate </h4>
+<h4>
+    <b>Sách</b>: <span style="color: #4267b2">@ViewBag.chosenBook</span> - <b>Ngày</b>: <span style="color: #4267b2">@ViewBag.chosenDate</span> 
+</h4>
+
+@using (Html.BeginForm("StockFilter", "Home", FormMethod.Post))
+{
+    @Html.DropDownList("Books", "-------- Tất cả sách --------")
+    <span>Chọn ngày:</span>
+    <input type="date" name="FilterDate" />
+
+    <input type="submit" value="Lọc" />
+}
+
+<br />
 
 <table class="table">
     <tr>
