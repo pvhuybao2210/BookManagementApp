@@ -1,0 +1,66 @@
+﻿@model IEnumerable<BookManagementApp.Models.Receipt>
+
+@{
+    ViewBag.Title = "Danh sách phiếu nhập";
+}
+
+<h2>DANH SÁCH PHIẾU NHẬP</h2>
+
+<p>
+    @Html.ActionLink("Tạo phiếu nhập", "Create")
+</p>
+<table class="table" >
+    <tr>
+        <th>Mã phiếu</th>
+        <th>
+           Nhà xuất bản
+        </th>
+        <th>
+           Tổng tiền
+        </th>
+        <th>
+           Ngày nhập
+        </th>
+        <th>
+          Ghi chú
+        </th>
+        <!--<th>
+           Tình trạng
+        </th>-->
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.ID)</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Publisher.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <!--<td>
+            @if (item.Status == true)
+            {
+                <span>Đã lưu</span>
+            }
+            else {
+                <span>Đã Hủy</span>
+            }
+        </td>-->
+        <!--<td>
+            @if (item.Status) {
+                <span>@Html.ActionLink("Cập nhật", "Edit", new { id = item.ID }) | </span>}
+            @Html.ActionLink("Chi tiết", "Details", new { id=item.ID }) 
+        </td>-->
+        <td>@Html.ActionLink("Chi tiết", "Details", new { id = item.ID })</td>
+    </tr>
+}
+
+</table>
