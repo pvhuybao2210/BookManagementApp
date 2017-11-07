@@ -149,6 +149,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AgenciesController.cs" />
+    <Compile Include="Controllers\AgencyDebtsController.cs" />
     <Compile Include="Controllers\AgencyReportsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -237,6 +238,7 @@
     <Content Include="Views\AgencyReports\Index.cshtml" />
     <Content Include="Views\AgencyReports\CreateReportDetails.cshtml" />
     <Content Include="Views\Receipts\CreateReceiptDetails.cshtml" />
+    <Content Include="Views\AgencyDebts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
