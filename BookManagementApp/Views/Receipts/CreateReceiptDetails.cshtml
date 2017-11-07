@@ -26,7 +26,7 @@
         <td>@ViewBag.agencyReportInfo.ID</td>
         <td>@ViewBag.agencyReportInfo.Agency.Name</td>
         <td>@ViewBag.agencyReportInfo.Date</td>
-        <td>@String.Format("{0:N0}", ViewBag.agencyReportInfo.Total)</td>
+        <td>@ViewBag.agencyReportInfo.Total</td>
         <td>@ViewBag.agencyReportInfo.Description</td>
     </tr>
 </table>
@@ -61,8 +61,8 @@
                                class="form-control"/>
                         <input type="hidden" value="@Model[i].BookID" name="agencyReportDetail_@i"/>
                     </td>
-                    <td>@String.Format("{0:N0}", Model[i].UnitPrice)</td>
-                    <td>@String.Format("{0:N0}", (Model[i].Quantity * Model[i].UnitPrice))</td>
+                    <td>@Model[i].UnitPrice</td>
+                    <td>@(Model[i].Quantity * Model[i].UnitPrice)</td>
                     <td>@Html.ActionLink("Xóa", "DeleteDetail", "AgencyReports", new { bookID = Model[i].BookID}, null )</td>
                 </tr>
                 }

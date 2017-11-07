@@ -18,7 +18,7 @@ namespace BookManagementApp.Controllers
         // GET: AgencyReports
         public ActionResult Index()
         {
-            var agencyReport = db.AgencyReport.Include(a => a.Agency);
+            var agencyReport = db.AgencyReports.Include(a => a.Agency);
             return View(agencyReport.ToList());
         }
 
@@ -29,7 +29,7 @@ namespace BookManagementApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.agencyReportInfo = db.AgencyReport.Include(s => s.Agency)
+            ViewBag.agencyReportInfo = db.AgencyReports.Include(s => s.Agency)
                  .SingleOrDefault(x => x.ID == id);
 
             List<AgencyReportDetail> agencyReportDetails = db.AgencyReportDetails
@@ -61,7 +61,7 @@ namespace BookManagementApp.Controllers
                 Status = true
             };
 
-            db.AgencyReport.Add(agencyReport);
+            db.AgencyReports.Add(agencyReport);
             db.SaveChanges();
 
             Session["agencyID"] = agencyReport.AgencyID;
@@ -80,7 +80,7 @@ namespace BookManagementApp.Controllers
                 agencyID = Convert.ToInt32(Session["agencyID"]);
                 agencyReportID = Convert.ToInt32(Session["agencyReportID"]);
 
-                ViewBag.agencyReportInfo = db.AgencyReport.Include(s => s.Agency)
+                ViewBag.agencyReportInfo = db.AgencyReports.Include(s => s.Agency)
                 .SingleOrDefault(x => x.ID == agencyReportID);
 
 
@@ -194,7 +194,7 @@ namespace BookManagementApp.Controllers
                     total += item.Quantity * item.UnitPrice;
                 }
 
-                AgencyReport agencyReport = db.AgencyReport.Find(agencyReportID);
+                AgencyReport agencyReport = db.AgencyReports.Find(agencyReportID);
                 agencyReport.Total = total;
 
                 db.SaveChanges();
@@ -216,7 +216,7 @@ namespace BookManagementApp.Controllers
 
         public ActionResult DeleteReport(int reportID)
         {
-            AgencyReport agencyReport = db.AgencyReport.Find(reportID);
+            AgencyReport agencyReport = db.AgencyReports.Find(reportID);
 
             List<AgencyReportDetail> agencyReportDetails  = db.AgencyReportDetails
                             .Where(s => s.AgencyReportID == reportID).ToList();
@@ -226,7 +226,7 @@ namespace BookManagementApp.Controllers
                 db.SaveChanges();
             }
 
-            db.AgencyReport.Remove(agencyReport);
+            db.AgencyReports.Remove(agencyReport);
             db.SaveChanges();
 
             Session.Clear();
