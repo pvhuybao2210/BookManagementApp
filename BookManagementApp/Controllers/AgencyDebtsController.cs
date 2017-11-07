@@ -41,7 +41,7 @@ namespace BookManagementApp.Controllers
 
                     // get agency's total debt on specific date
                     AgencyDebt agencyDebt = db.AgencyDebts
-                                            .Where(s => s.AgencyID == agencyID 
+                                            .Where(s => s.AgencyID == agencyID
                                             && DbFunctions.TruncateTime(s.Date) <= date)
                                             .OrderByDescending(s => s.Date)
                                             .FirstOrDefault();
@@ -53,26 +53,42 @@ namespace BookManagementApp.Controllers
                                             && DbFunctions.TruncateTime(s.Date) <= date)
                                             .ToList();
 
-                    foreach(var x in invoices)
+                    foreach (var x in invoices)
                     {
                         List<InvoiceDetail> invoiceDetails = db.InvoiceDetails
                                                         .Where(s => s.InvoiceID == x.ID)
                                                         .Include(s => s.Book)
                                                         .ToList();
-                        foreach(var y in invoiceDetails)
+                        foreach (var y in invoiceDetails)
                         {
-                            AgencyBookDebt a = new AgencyBookDebt()
+                            // if book exists, increase quantity
+                            if (agencyBookDebts.Count > 0)
                             {
-                                BookID = y.BookID,
-                                Quantity = y.Quantity,
-                                Book = y.Book
-                            };
-                            agencyBookDebts.Add(a);
+                                foreach (var z in agencyBookDebts)
+                                {
+                                    if (z.BookID == y.Book.ID)
+                                    {
+                                        z.Quantity += y.Quantity;
+                                    }
+
+                                }
+                            }
+                            // if book not exists, add new
+                            else
+                            {
+                                AgencyBookDebt a = new AgencyBookDebt()
+                                {
+                                    BookID = y.BookID,
+                                    Quantity = y.Quantity,
+                                    Book = y.Book
+                                };
+                                agencyBookDebts.Add(a);
+                            }
                         }
 
                     }
 
-                    // get agency's reports from start to specific date
+                    // get all agency's reports from start to specific date
                     List<AgencyReport> agencyReports = db.AgencyReports
                                             .Where(s => DbFunctions.TruncateTime(s.Date) <= date)
                                             .ToList();
@@ -84,14 +100,14 @@ namespace BookManagementApp.Controllers
                                                         .ToList();
                         foreach (var y in agencyReportDetails)
                         {
-                            foreach(var z in agencyBookDebts)
+                            foreach (var z in agencyBookDebts)
                             {
-                                if(z.BookID == y.BookID)
+                                if (z.BookID == y.BookID)
                                 {
                                     z.Quantity -= y.Quantity;
                                 }
                             }
-                            
+
                         }
 
                     }
@@ -112,9 +128,9 @@ namespace BookManagementApp.Controllers
                     }
                     ViewBag.total = total;
 
-                    ViewBag.date = "Hôm nay";   
+                    ViewBag.date = "Hôm nay";
                 }
-                
+
             }
 
             return View(agencyBookDebts);
