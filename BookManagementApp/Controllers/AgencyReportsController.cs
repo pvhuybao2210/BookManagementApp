@@ -236,8 +236,11 @@ namespace BookManagementApp.Controllers
 
         public ActionResult Save(int reportID, int agencyID)
         {
+            int total = 0;
+
             List<AgencyReportDetail> agencyReportDetails = db.AgencyReportDetails
                             .Where(s => s.AgencyReportID == reportID).ToList();
+            // update angency book debt
             foreach (AgencyReportDetail i in agencyReportDetails)
             {
                 AgencyBookDebt agencyBookDebt = db.AgencyBookDebts
@@ -246,7 +249,20 @@ namespace BookManagementApp.Controllers
                 agencyBookDebt.Quantity -= i.Quantity;
 
                 db.SaveChanges();
+
+                total += (i.Quantity * i.UnitPrice);
             }
+
+            // update angency debt
+            AgencyDebt agencyDebt = db.AgencyDebts
+                            .Where(s => s.AgencyID == agencyID)
+                            .OrderByDescending(s => s.Date)
+                            .First();
+            agencyDebt.Amount -= total; 
+            agencyDebt.Date = DateTime.Now;
+
+            db.AgencyDebts.Add(agencyDebt);
+            db.SaveChanges();
 
             Session.Clear();
 

@@ -185,6 +185,16 @@ namespace BookManagementApp.DAL
 
             agenyBookDebt.ForEach(s => context.AgencyBookDebts.Add(s));
             context.SaveChanges();
+
+            // Agency  debt
+            var agenyDebt = new List<AgencyDebt>
+            {
+                 new AgencyDebt{AgencyID = 1, Amount = 2335000, Date = DateTime.Parse("2017-11-1 07:55") },
+                 new AgencyDebt{AgencyID = 2, Amount = 3865000, Date = DateTime.Parse("2017-11-2 14:33") }, 
+            };
+
+            agenyDebt.ForEach(s => context.AgencyDebts.Add(s));
+            context.SaveChanges();
         }
     }
 }
