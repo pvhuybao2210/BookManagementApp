@@ -15,7 +15,7 @@
         <td>@ViewBag.agencyReportInfo.ID</td>
         <td>@ViewBag.agencyReportInfo.Agency.Name</td>
         <td>@ViewBag.agencyReportInfo.Date</td>
-        <td>@ViewBag.agencyReportInfo.Total</td>
+        <td>@String.Format("{0:N0}", ViewBag.agencyReportInfo.Total)</td>
         <td>@ViewBag.agencyReportInfo.Description</td>
     </tr>
 </table>
@@ -30,14 +30,17 @@
                 <th>Thành tiền</th>
                 <th></th>
             </tr>
-
-            @foreach(var item in Model)
+            @foreach (var item in Model)
             {
-                <tr>@Model.Book.Name</tr>
-                <tr>@Model.Quantity</tr>
-                <tr>@Model.UniPrice</tr>
-                <tr>@(Model.UnitPrice*Model.Quantity)</tr>
+                <tr>
+                    <td>@item.Book.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@String.Format("{0:N0}",item.UnitPrice)</td>
+                    <td>@String.Format("{0:N0}",(item.UnitPrice * item.Quantity))</td>
+                </tr>
+                
             }
+           
         </table>
     </div>
 </div>

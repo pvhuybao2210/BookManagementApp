@@ -36,7 +36,7 @@ namespace BookManagementApp.Controllers
                        .Where(s => s.AgencyReportID == id)
                        .Include(s => s.Book)
                        .ToList();
-            
+            //return Json(agencyReportDetails, JsonRequestBehavior.AllowGet);
             return View(agencyReportDetails);
         }
 
