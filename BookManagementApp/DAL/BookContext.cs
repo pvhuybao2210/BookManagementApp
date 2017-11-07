@@ -29,6 +29,7 @@ namespace BookManagementApp.DAL
         public DbSet<AgencyReport> AgencyReport { get; set; }
         public DbSet<AgencyReportDetail> AgencyReportDetails { get; set; }
         public DbSet<AgencyDebt> AgencyDebts { get; set; }
+        public DbSet<AgencyBookDebt> AgencyBookDebts { get; set; }
 
         public DbSet<Debt> Debts { get; set; }
         

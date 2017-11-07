@@ -172,6 +172,19 @@ namespace BookManagementApp.DAL
 
             stock.ForEach(s => context.Stocks.Add(s));
             context.SaveChanges();
+
+            // Agency book debt
+            var agenyBookDebt = new List<AgencyBookDebt>
+            {
+                 new AgencyBookDebt{AgencyID = 1, BookID = 1, Quantity = 10 },
+                 new AgencyBookDebt{AgencyID = 1, BookID = 2, Quantity = 15 },
+                 new AgencyBookDebt{AgencyID = 2, BookID = 3, Quantity = 25 },
+                 new AgencyBookDebt{AgencyID = 2, BookID = 4, Quantity = 30 },
+                 new AgencyBookDebt{AgencyID = 2, BookID = 5, Quantity = 35 },
+            };
+
+            agenyBookDebt.ForEach(s => context.AgencyBookDebts.Add(s));
+            context.SaveChanges();
         }
     }
 }

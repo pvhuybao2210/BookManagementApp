@@ -3,7 +3,7 @@ namespace BookManagementApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Book_v1 : DbMigration
+    public partial class Book_v2 : DbMigration
     {
         public override void Up()
         {
@@ -180,6 +180,21 @@ namespace BookManagementApp.Migrations
                 .Index(t => t.BookID);
             
             CreateTable(
+                "dbo.AgencyBookDebts",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        AgencyID = c.Int(nullable: false),
+                        BookID = c.Int(nullable: false),
+                        Quantity = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Agencies", t => t.AgencyID)
+                .ForeignKey("dbo.Books", t => t.BookID)
+                .Index(t => t.AgencyID)
+                .Index(t => t.BookID);
+            
+            CreateTable(
                 "dbo.AgencyDebts",
                 c => new
                     {
@@ -225,6 +240,8 @@ namespace BookManagementApp.Migrations
             DropForeignKey("dbo.Stocks", "BookID", "dbo.Books");
             DropForeignKey("dbo.Debts", "PublisherID", "dbo.Publishers");
             DropForeignKey("dbo.AgencyDebts", "AgencyID", "dbo.Agencies");
+            DropForeignKey("dbo.AgencyBookDebts", "BookID", "dbo.Books");
+            DropForeignKey("dbo.AgencyBookDebts", "AgencyID", "dbo.Agencies");
             DropForeignKey("dbo.InvoiceDetails", "InvoiceID", "dbo.Invoices");
             DropForeignKey("dbo.InvoiceDetails", "BookID", "dbo.Books");
             DropForeignKey("dbo.Invoices", "AgencyID", "dbo.Agencies");
@@ -242,6 +259,8 @@ namespace BookManagementApp.Migrations
             DropIndex("dbo.Stocks", new[] { "BookID" });
             DropIndex("dbo.Debts", new[] { "PublisherID" });
             DropIndex("dbo.AgencyDebts", new[] { "AgencyID" });
+            DropIndex("dbo.AgencyBookDebts", new[] { "BookID" });
+            DropIndex("dbo.AgencyBookDebts", new[] { "AgencyID" });
             DropIndex("dbo.InvoiceDetails", new[] { "BookID" });
             DropIndex("dbo.InvoiceDetails", new[] { "InvoiceID" });
             DropIndex("dbo.Invoices", new[] { "AgencyID" });
@@ -259,6 +278,7 @@ namespace BookManagementApp.Migrations
             DropTable("dbo.Stocks");
             DropTable("dbo.Debts");
             DropTable("dbo.AgencyDebts");
+            DropTable("dbo.AgencyBookDebts");
             DropTable("dbo.InvoiceDetails");
             DropTable("dbo.Invoices");
             DropTable("dbo.ReportDetails");

@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Details";
+}
+
+<h4>Thông tin phiếu báo cáo</h4>
+<table class="table">
+    <tr>
+        <th>Mã phiếu</th>
+        <th>Đại lý</th>
+        <th>Ngày tạo phiếu</th>
+        <th>Tổng tiền</th>
+        <th>Ghi chú</th>
+    </tr>
+    <tr>
+        <td>@ViewBag.agencyReportInfo.ID</td>
+        <td>@ViewBag.agencyReportInfo.Agency.Name</td>
+        <td>@ViewBag.agencyReportInfo.Date</td>
+        <td>@ViewBag.agencyReportInfo.Total</td>
+        <td>@ViewBag.agencyReportInfo.Description</td>
+    </tr>
+</table>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <table class="table" style="margin-top:15px">
+            <tr>
+                <th>Tên sách</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+                <th></th>
+            </tr>
+
+            @foreach(var item in Model)
+            {
+                <tr>@Model.Book.Name</tr>
+                <tr>@Model.Quantity</tr>
+                <tr>@Model.UniPrice</tr>
+                <tr>@(Model.UnitPrice*Model.Quantity)</tr>
+            }
+        </table>
+    </div>
+</div>
+<input type="hidden" name="justCreated" value="0" />
+<p>
+    @Html.ActionLink("Danh sách phiếu báo cáo", "Index")
+</p>

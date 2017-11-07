@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Chi tiết phiếu báo cáo";
+}
+<style>
+    input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+<h4>Thông tin phiếu báo cáo</h4>
+<table class="table">
+    <tr>
+        <th>Mã phiếu</th>
+        <th>Đại lý</th>
+        <th>Ngày tạo phiếu</th>
+        <th>Tổng tiền</th>
+        <th>Ghi chú</th>
+    </tr>
+    <tr>
+        <td>@ViewBag.agencyReportInfo.ID</td>
+        <td>@ViewBag.agencyReportInfo.Agency.Name</td>
+        <td>@ViewBag.agencyReportInfo.Date</td>
+        <td>@ViewBag.agencyReportInfo.Total</td>
+        <td>@ViewBag.agencyReportInfo.Description</td>
+    </tr>
+</table>
+
+@using (Html.BeginForm("CreateReportDetails", "AgencyReports"))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.DropDownList("bookID",ViewBag.agencyBooks as SelectList,
+                    "------ Chọn sách ------",
+                    new { @class = "form-control", @onchange = "this.form.submit()" })
+            </div>
+        </div>
+        <p style="color:red;font-weight:bold">@ViewBag.quantityError</p>
+        <div class="form-group">
+            <table class="table" style="margin-top:15px">
+                <tr>
+                    <th>Tên sách</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                    <th></th>
+                </tr>
+                
+                @for(int i = 0; i < Model.Count; i++) {
+                <tr>
+                    <td>@Model[i].Book.Name</td>
+                    <td>
+                        <input type="number" min="0" value="@Model[i].Quantity" name="quantity_@i" 
+                               onchange="this.form.submit()"
+                               class="form-control"/>
+                        <input type="hidden" value="@Model[i].BookID" name="agencyReportDetail_@i"/>
+                    </td>
+                    <td>@Model[i].UnitPrice</td>
+                    <td>@(Model[i].Quantity * Model[i].UnitPrice)</td>
+                    <td>@Html.ActionLink("Xóa", "DeleteDetail", "AgencyReports", new { bookID = Model[i].BookID}, null )</td>
+                </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <input type="hidden" name="justCreated" value="0" />
+}
+
+<div class="form-group">
+    <div class="col-md-2 pull-right">
+        <a href="Save?reportID=@ViewBag.agencyReportInfo.ID&agencyID=@ViewBag.agencyReportInfo.AgencyID">
+        <input type="button" value="Lưu" class="btn btn-success" /></a> | 
+        <a href="DeleteReport?reportID=@ViewBag.agencyReportInfo.ID"><input type="button" value="Hủy" class="btn btn-danger" /></a>
+    </div>
+</div>
+
