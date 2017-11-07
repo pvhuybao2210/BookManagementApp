@@ -231,12 +231,12 @@
     <Content Include="Views\Home\StockFilter.cshtml" />
     <Content Include="Views\Receipts\Create.cshtml" />
     <Content Include="Views\Receipts\Details.cshtml" />
-    <Content Include="Views\Receipts\Edit.cshtml" />
     <Content Include="Views\Receipts\Index.cshtml" />
     <Content Include="Views\AgencyReports\Create.cshtml" />
     <Content Include="Views\AgencyReports\Details.cshtml" />
     <Content Include="Views\AgencyReports\Index.cshtml" />
     <Content Include="Views\AgencyReports\CreateReportDetails.cshtml" />
+    <Content Include="Views\Receipts\CreateReceiptDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

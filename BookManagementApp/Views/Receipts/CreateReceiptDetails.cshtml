@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Chi tiết phiếu báo cáo";
+    ViewBag.Title = "Chi tiết phiếu nhập";
 }
 <style>
     input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
@@ -13,35 +13,35 @@
     }
 </style>
 
-<h4>Thông tin phiếu báo cáo</h4>
+<h4>Thông tin phiếu nhập</h4>
 <table class="table">
     <tr>
         <th>Mã phiếu</th>
-        <th>Đại lý</th>
+        <th>Nhà xuất bản</th>
         <th>Ngày tạo phiếu</th>
         <th>Tổng tiền</th>
         <th>Ghi chú</th>
     </tr>
     <tr>
-        <td>@ViewBag.agencyReportInfo.ID</td>
-        <td>@ViewBag.agencyReportInfo.Agency.Name</td>
-        <td>@ViewBag.agencyReportInfo.Date</td>
-        <td>@ViewBag.agencyReportInfo.Total</td>
-        <td>@ViewBag.agencyReportInfo.Description</td>
+        <td>@ViewBag.receiptInfo.ID</td>
+        <td>@ViewBag.receiptInfo.Publisher.Name</td>
+        <td>@ViewBag.receiptInfo.Date</td>
+        <td>@String.Format("{0:N0}", ViewBag.receiptInfo.Total)</td>
+        <td>@ViewBag.receiptInfo.Description</td>
     </tr>
 </table>
 
-@using (Html.BeginForm("CreateReportDetails", "AgencyReports"))
+@using (Html.BeginForm("CreateReceiptDetails", "Receipts"))
 {
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-md-10">
-                @Html.DropDownList("bookID",ViewBag.agencyBooks as SelectList,
+                @Html.DropDownList("bookID", ViewBag.books as SelectList,
                     "------ Chọn sách ------",
                     new { @class = "form-control", @onchange = "this.form.submit()" })
             </div>
         </div>
-        <p style="color:red;font-weight:bold">@ViewBag.quantityError</p>
+
         <div class="form-group">
             <table class="table" style="margin-top:15px">
                 <tr>
@@ -51,20 +51,21 @@
                     <th>Thành tiền</th>
                     <th></th>
                 </tr>
-                
-                @for(int i = 0; i < Model.Count; i++) {
-                <tr>
-                    <td>@Model[i].Book.Name</td>
-                    <td>
-                        <input type="number" min="0" value="@Model[i].Quantity" name="quantity_@i" 
-                               onchange="this.form.submit()"
-                               class="form-control"/>
-                        <input type="hidden" value="@Model[i].BookID" name="agencyReportDetail_@i"/>
-                    </td>
-                    <td>@Model[i].UnitPrice</td>
-                    <td>@(Model[i].Quantity * Model[i].UnitPrice)</td>
-                    <td>@Html.ActionLink("Xóa", "DeleteDetail", "AgencyReports", new { bookID = Model[i].BookID}, null )</td>
-                </tr>
+
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>@Model[i].Book.Name</td>
+                        <td>
+                            <input type="number" min="0" value="@Model[i].Quantity" name="quantity_@i"
+                                   onchange="this.form.submit()"
+                                   class="form-control" />
+                            <input type="hidden" value="@Model[i].BookID" name="receiptDetail_@i" />
+                        </td>
+                        <td>@String.Format("{0:N0}", Model[i].UnitPrice)</td>
+                        <td>@String.Format("{0:N0}", (Model[i].Quantity * Model[i].UnitPrice))</td>
+                        <td>@Html.ActionLink("Xóa", "DeleteDetail", "Receipts", new { bookID = Model[i].BookID }, null)</td>
+                    </tr>
                 }
             </table>
         </div>
@@ -74,9 +75,10 @@
 
 <div class="form-group">
     <div class="col-md-2 pull-right">
-        <a href="Save?reportID=@ViewBag.agencyReportInfo.ID&agencyID=@ViewBag.agencyReportInfo.AgencyID">
-        <input type="button" value="Lưu" class="btn btn-success" /></a> | 
-        <a href="DeleteReport?reportID=@ViewBag.agencyReportInfo.ID"><input type="button" value="Hủy" class="btn btn-danger" /></a>
+        <a href="Save?receiptID=@ViewBag.receiptInfo.ID&publisherID=@ViewBag.receiptInfo.PublisherID">
+            <input type="button" value="Lưu" class="btn btn-success" />
+        </a> |
+        <a href="DeleteReceipt?receiptID=@ViewBag.receiptInfo.ID"><input type="button" value="Hủy" class="btn btn-danger" /></a>
     </div>
 </div>
 

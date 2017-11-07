@@ -16,7 +16,7 @@
     <tr>
         <td>@Model.ID</td>
         <td>@Model.Publisher.Name</td>
-        <td>@Model.Total</td>
+        <td>@String.Format("{0:N0}", Model.Total)</td>
         <td>@Model.Date</td>
         <td>@Model.Description</td>
         <!--td>@if (Model.Status)
@@ -36,8 +36,8 @@
     <tr>      
         <td>@item.Book.Name</td>
         <td>@item.Quantity</td>
-        <td>@item.UnitPrice</td>
-        <td>@(item.UnitPrice*item.Quantity)</td>
+        <td>@String.Format("{0:N0}", item.UnitPrice)</td>
+        <td>@String.Format("{0:N0}", (item.UnitPrice * item.Quantity))</td>
     </tr>
     }
 </table>
