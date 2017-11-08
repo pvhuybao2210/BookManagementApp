@@ -1,0 +1,43 @@
+﻿@model BookManagementApp.Models.Invoice
+@{
+    ViewBag.Title = "Chi tiết phiếu xuất";
+}
+<h2>THÔNG TIN PHIẾU XUẤT</h2>
+<table class="table">
+    <tr>
+        <th>Mã phiếu</th>
+        <th>Đại lý</th>
+        <th>Tổng tiền</th>
+        <th>Ngày nhập</th>
+        <!--th>Ghi chú</th>
+        <th>Tình trạng</th-->
+    </tr>
+    <tr>
+        <td>@Model.ID</td>
+        <td>@Model.Agency.Name</td>
+        <td>@String.Format("{0:N0}", Model.Total)</td>
+        <td>@Model.Date</td>
+        <td>@Model.Description</td>
+        <!--td>@if (Model.Status)
+        {<span>Đã lưu</span> }
+        else { <span>Đã hủy</span>}</td-->
+    </tr>
+</table>
+<h3>Chi tiết phiếu xuất</h3>
+<table class="table">
+    <tr>
+        <th>Tên sách</th>
+        <th>Số lượng</th>
+        <th>Đơn giá</th>
+        <th>Thành tiền</th>
+    </tr>
+    @foreach (var item in Model.InvoiceDetails)
+    {
+        <tr>
+            <td>@item.Book.Name</td>
+            <td>@item.Quantity</td>
+            <td>@String.Format("{0:N0}", item.UnitPrice)</td>
+            <td>@String.Format("{0:N0}", (item.UnitPrice * item.Quantity))</td>
+        </tr>
+    }
+</table>

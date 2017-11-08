@@ -153,6 +153,7 @@
     <Compile Include="Controllers\AgencyReportsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\PublishersController.cs" />
     <Compile Include="Controllers\ReceiptsController.cs" />
     <Compile Include="DAL\BookContext.cs" />
@@ -239,6 +240,10 @@
     <Content Include="Views\AgencyReports\CreateReportDetails.cshtml" />
     <Content Include="Views\Receipts\CreateReceiptDetails.cshtml" />
     <Content Include="Views\AgencyDebts\Index.cshtml" />
+    <Content Include="Views\Invoices\Create.cshtml" />
+    <Content Include="Views\Invoices\CreateDetails.cshtml" />
+    <Content Include="Views\Invoices\Details.cshtml" />
+    <Content Include="Views\Invoices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
