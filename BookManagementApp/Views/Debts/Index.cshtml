@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Thống kê nợ NXB";
+}
+
+<h2>THỐNG KÊ NỢ NHÀ XUẤT BẢN</h2>
+
+@using (Html.BeginForm("Index", "Debts"))
+{
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Đại lý: </label>
+                @Html.DropDownList("publisherID", ViewBag.publishers as SelectList,
+               "------ Chọn NXB ------",
+                new { @class = "form-control", @style = "display:inline" })
+
+                <label style="margin-left: 15px">Chọn ngày: </label>
+                <input type="date" name="date" id="date" value="" class="form-control" />
+
+                <input type="submit" value="Thống kê" />
+            </div>
+        </div>
+        <hr />
+        <p>@if (ViewBag.date != null)
+        { <b>Ngày:</b> @ViewBag.date}</p>
+        <hr />
+        @if (Model != null)
+        {
+            <table class="table">
+                <tr>
+                    <th>Tên sách</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                </tr>
+                @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@item.Book.Name</td>
+                        <td>@item.Quantity</td>
+                        <td>@String.Format("{0:N0}", item.Book.PurchasePrice)</td>
+                        <td>@String.Format("{0:N0}", (item.Book.PurchasePrice * item.Quantity))</td>
+                    </tr>
+                }
+                <tr>
+                    <td style="padding-right: 155px" colspan="4" class="text-right">
+                        <b>Tổng tiền nợ: </b> @String.Format("{0:N0}", ViewBag.totalDebt)
+                        <br />
+                        <b>Tổng tiền đại lý trả: </b> @String.Format("{0:N0}", ViewBag.totalAgencyPay)
+                    </td>
+                </tr>
+            </table>
+        }
+
+    </div>
+}
+

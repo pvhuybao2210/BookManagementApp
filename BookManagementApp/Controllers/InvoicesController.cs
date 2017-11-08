@@ -260,7 +260,7 @@ namespace BookManagementApp.Controllers
 
         public ActionResult Save(int invoiceID, int agencyID)
         {
-            int total = 0;
+            int totalAgencyDebt = 0;
 
             List<InvoiceDetail> invoiceDetails = db.InvoiceDetails
                             .Where(s => s.InvoiceID == invoiceID).ToList();
@@ -278,7 +278,7 @@ namespace BookManagementApp.Controllers
                 db.Stocks.Add(stock);
                 db.SaveChanges();
 
-                total += (i.Quantity * i.UnitPrice);
+                totalAgencyDebt += (i.Quantity * i.UnitPrice);
             }
 
             // update agency book debt
@@ -291,8 +291,6 @@ namespace BookManagementApp.Controllers
                 agencyBookDebt.Quantity += i.Quantity;
 
                 db.SaveChanges();
-
-                total += (i.Quantity * i.UnitPrice);
             }
 
             // update debt
@@ -300,7 +298,7 @@ namespace BookManagementApp.Controllers
                         .Where(s => s.AgencyID == agencyID)
                         .OrderByDescending(s => s.Date)
                         .First();
-            agencyDebt.Amount += total;
+            agencyDebt.Amount += totalAgencyDebt;
             agencyDebt.Date = DateTime.Now;
 
             db.AgencyDebts.Add(agencyDebt);

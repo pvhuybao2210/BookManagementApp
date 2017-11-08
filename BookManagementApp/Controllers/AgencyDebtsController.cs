@@ -51,6 +51,7 @@ namespace BookManagementApp.Controllers
                     List<Invoice> invoices = db.Invoices
                                             .Where(s => s.AgencyID == agencyID
                                             && DbFunctions.TruncateTime(s.Date) <= date)
+                                            .Include(s=>s.InvoiceDetails)
                                             .ToList();
 
                     foreach (var x in invoices)
@@ -61,19 +62,13 @@ namespace BookManagementApp.Controllers
                                                         .ToList();
                         foreach (var y in invoiceDetails)
                         {
-                            // if book exists, increase quantity
-                            if (agencyBookDebts.Count > 0)
-                            {
-                                foreach (var z in agencyBookDebts)
-                                {
-                                    if (z.BookID == y.Book.ID)
-                                    {
-                                        z.Quantity += y.Quantity;
-                                    }
+                            var agencyBookDebt = agencyBookDebts.Find(s => s.BookID == y.BookID);
 
-                                }
-                            }
-                            // if book not exists, add new
+                            if (agencyBookDebt != null)
+                            {
+                                // if book exists, increase quantity
+                                agencyBookDebts.Find(s => s.BookID == y.BookID).Quantity += y.Quantity;
+                            } 
                             else
                             {
                                 AgencyBookDebt a = new AgencyBookDebt()
