@@ -117,7 +117,7 @@ namespace BookManagementApp.Controllers
                             ReceiptID = receiptID,
                             BookID = bookID,
                             Quantity = 1,
-                            UnitPrice = book.SellingPrice
+                            UnitPrice = book.PurchasePrice
                         };
                         db.ReceiptDetails.Add(a);
                         db.SaveChanges();
@@ -217,6 +217,7 @@ namespace BookManagementApp.Controllers
                     .FirstOrDefault();
 
                 stock.Quantity += i.Quantity;
+                stock.Date = DateTime.Now;
 
                 db.Stocks.Add(stock);
                 db.SaveChanges();

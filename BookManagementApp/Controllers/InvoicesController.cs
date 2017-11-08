@@ -273,6 +273,7 @@ namespace BookManagementApp.Controllers
                     .FirstOrDefault();
 
                 stock.Quantity -= i.Quantity;
+                stock.Date = DateTime.Now;
 
                 db.Stocks.Add(stock);
                 db.SaveChanges();
@@ -280,15 +281,29 @@ namespace BookManagementApp.Controllers
                 total += (i.Quantity * i.UnitPrice);
             }
 
+            // update agency book debt
+            foreach (InvoiceDetail i in invoiceDetails)
+            {
+                AgencyBookDebt agencyBookDebt = db.AgencyBookDebts
+                    .Where(s => s.BookID == i.BookID && s.AgencyID == agencyID)
+                    .FirstOrDefault();
+
+                agencyBookDebt.Quantity += i.Quantity;
+
+                db.SaveChanges();
+
+                total += (i.Quantity * i.UnitPrice);
+            }
+
             // update debt
-            AgencyDebt debt = db.AgencyDebts
+            AgencyDebt agencyDebt = db.AgencyDebts
                         .Where(s => s.AgencyID == agencyID)
                         .OrderByDescending(s => s.Date)
                         .First();
-            debt.Amount += total;
-            debt.Date = DateTime.Now;
+            agencyDebt.Amount += total;
+            agencyDebt.Date = DateTime.Now;
 
-            db.AgencyDebts.Add(debt);
+            db.AgencyDebts.Add(agencyDebt);
             db.SaveChanges();
 
             Session.Clear();
