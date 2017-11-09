@@ -42,6 +42,7 @@ namespace BookManagementApp.Controllers
         {
             ViewBag.GenreID = new SelectList(db.Genres, "ID", "Name");
             ViewBag.PublisherID = new SelectList(db.Publishers, "ID", "Name");
+
             return View();
         }
 
@@ -54,11 +55,22 @@ namespace BookManagementApp.Controllers
             {
                 db.Books.Add(book);
                 db.SaveChanges();
+
+                Stock stock = new Stock()
+                {
+                    BookID = book.ID,
+                    Quantity = 0,
+                    Date = DateTime.Now
+                };
+                db.Stocks.Add(stock);
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
             ViewBag.GenreID = new SelectList(db.Genres, "ID", "Name", book.GenreID);
             ViewBag.PublisherID = new SelectList(db.Publishers, "ID", "Name", book.PublisherID);
+
             return View(book);
         }
 
