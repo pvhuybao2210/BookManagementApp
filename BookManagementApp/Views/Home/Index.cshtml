@@ -1,49 +1,51 @@
-﻿@model IEnumerable<BookManagementApp.Models.Stock>
-
-@{
-    ViewBag.Title = "Trang chủ";
+﻿@{
+    ViewBag.Title = "Thống kê doanh thu";
 }
 
-<h2>THỐNG KÊ TỒN KHO</h2>
+<h2>THỐNG KÊ DOANH THU</h2>
 
-<br />
-
-@using (Html.BeginForm("StockFilter", "Home", FormMethod.Post))
+@using (Html.BeginForm("Index", "Home"))
 {
-    @Html.DropDownList("Books","-------- Tất cả sách --------")
-    <span>Chọn ngày:</span>
-    <input type="date" name="FilterDate" />
-
-    <input type="submit" value="Lọc" />
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <div class="col-md-10">
+                <label style="margin-left: 15px">Chọn ngày: </label>
+                <input type="date" name="date" id="date" value="@(Request.Form["date"])" class="form-control" />
+                <input type="submit" value="Thống kê" />
+            </div>
+        </div>
+        <div class="form-group">
+            <table class="table">
+                <tr>
+                    <th>Tên NXB</th>
+                    <th>Tiền nợ</th>
+                </tr>
+                
+                @if (Model != null)
+                {
+                    for(var i = 0; i < Model.Count; i++)
+                    {
+                    <tr>
+                        <td>@ViewBag.publishers[i].Name</td>
+                        <td>@String.Format("{0:N0}", Model[i].Amount)</td>
+                    </tr>
+                    }
+                }
+                <tr>
+                    <td class="text-right"><b>Tổng nợ: </b></td>
+                    <td style="color:red"><b>@String.Format("{0:N0}", ViewBag.totalDebt)</b></td>
+                </tr>
+                <tr>
+                    <td class="text-right"><b>Tiền đại lý trả: </b></td>
+                    <td style="color:blue"><b>@String.Format("{0:N0}", ViewBag.totalAgencyPayment)</b></td>
+                </tr>
+                <tr>
+                    <td class="text-right"><b>Tiền lời: </b></td>
+                    <td style="color:green;"><b>@String.Format("{0:N0}", ViewBag.revenue)</b></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 }
 
-<br />
-
-<table class="table">
-    <tr>
-        <th>
-           Tên sách
-        </th>
-        <th>
-            Số lượng
-        </th>
-        <th>
-           Thời gian
-        </th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Book.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Quantity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-    </tr>
-}
-
-</table>

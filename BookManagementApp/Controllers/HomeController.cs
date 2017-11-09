@@ -15,75 +15,80 @@ namespace BookManagementApp.Controllers
     {
         private BookContext db = new BookContext();
 
-        // GET: Stocks
         public ActionResult Index()
         {
-            var stocks = db.Stocks.ToList(); 
-            var books = db.Books.ToList();
-            List<Stock> stockResult = new List<Stock>();
+            // if user doesn't choose filter date, get current date by default
+            DateTime filterDate = DateTime.Now;
 
-            foreach (var b in books)
+            if (!string.IsNullOrWhiteSpace(Request.Form["date"]))
             {
-                Stock stock = stocks.Where(s => s.BookID == b.ID).OrderByDescending(s => s.Date).First();
-                stockResult.Add(stock);
+                var tempDate = Request.Form["date"].ToString();
+                TimeSpan time = new TimeSpan(23, 59, 59);
+                filterDate = DateTime.Parse(tempDate).Add(time);
             }
 
-            ViewBag.Books = new SelectList(books, "ID", "Name"); 
+            // get all debts from all publishers
+            int totalDebt = 0;
+            ViewBag.totalDebt = 0;
 
-            return View(stockResult.ToList());
-        }
+            List<Publisher> publishers = db.Publishers.ToList();
+            ViewBag.publishers = publishers;
 
-        public ActionResult StockFilter(FormCollection form)
-        {
-            var books = db.Books.ToList();
-            ViewBag.Books = new SelectList(books, "ID", "Name");
+            List<Debt> debts = db.Debts.ToList();
+            List<Debt> debtResult = new List<Debt>();
 
-            string tempBookID = Request.Form["Books"].ToString();
-            int bookID = 0;
-            if (tempBookID != "")
-                bookID = Convert.ToInt32(tempBookID);
-
-            var tempDate = Request.Form["FilterDate"].ToString();
-            TimeSpan time = new TimeSpan(23, 59, 59);
-            DateTime date = DateTime.Parse(tempDate).Add(time);
-
-            ViewBag.chosenDate = date;
-
-            List<Stock> stockResult = new List<Stock>();
-
-            if (bookID != 0) {
-                Stock stock = db.Stocks.Include(s => s.Book)
-                                        .Where(s => s.BookID == bookID
-                                            && DbFunctions.TruncateTime(s.Date) <= date)
-                                        .OrderByDescending(s => s.Date)
-                                        .FirstOrDefault();
-                stockResult.Add(stock);
-                ViewBag.chosenBook = stock.Book.Name;
-            }                
-            else
+            if(debts != null)
             {
-                var stocks = db.Stocks.ToList();
-
-                foreach (var b in books)
+                foreach (var x in publishers)
                 {
-                    Stock stock = stocks.Where(s => s.BookID == b.ID
-                                            && (s.Date <= date) )
-                                        .OrderByDescending(s => s.Date).FirstOrDefault();
-                    stockResult.Add(stock);
+                    Debt debt = debts
+                   .Where(s => s.PublisherID == x.ID &&
+                   (filterDate - s.Date).TotalMilliseconds >= 0)
+                   .OrderByDescending(s => s.Date)
+                   .FirstOrDefault();
+
+                    if(debt != null)
+                    {
+                        debtResult.Add(debt);
+                        totalDebt += debt.Amount;
+                    } 
                 }
-                ViewBag.chosenBook = "Tất cả sách";
+                ViewBag.totalDebt = totalDebt;
             }
 
-            return View(stockResult);
-        }
+            // get total payments from agencies => revenue
+            int totalAgencyPayment = 0;
+            ViewBag.totalAgencyPayment = 0;
+            ViewBag.revenue = 0;
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            List<AgencyReport> agencyReports = db.AgencyReports
+                                                .Where(s => DbFunctions.TruncateTime(s.Date) <= filterDate)
+                                                .Include(s => s.AgencyReportDetails)
+                                                .ToList();
+            int totalSellingPrice = 0;
+            int totalPurchasePrice = 0;
+
+            if(agencyReports != null)
             {
-                db.Dispose();
+                foreach (var x in agencyReports)
+                {
+                    totalAgencyPayment += x.Total;
+
+                    List<AgencyReportDetail> agencyReportDetails = db.AgencyReportDetails
+                                                    .Where(s => s.AgencyReportID == x.ID)
+                                                    .Include(s => s.Book)
+                                                    .ToList();
+                    foreach (AgencyReportDetail y in agencyReportDetails)
+                    {
+                        totalSellingPrice += (y.Book.SellingPrice * y.Quantity);
+                        totalPurchasePrice += (y.Book.PurchasePrice * y.Quantity);
+                    }
+                }
+                ViewBag.revenue = totalSellingPrice - totalPurchasePrice;
+                ViewBag.totalAgencyPayment = totalAgencyPayment;
             }
-            base.Dispose(disposing);
+            
+            return View(debtResult);
         }
 
 
