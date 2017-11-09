@@ -13,7 +13,7 @@ namespace BookManagementApp.Models
             this.Reports = new HashSet<Report>();
         }
         public int ID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Tên không được trống")]
         public string Name { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
