@@ -42,9 +42,14 @@ namespace BookManagementApp.Controllers
             if (tempBookID != "")
                 bookID = Convert.ToInt32(tempBookID);
 
-            var tempDate = Request.Form["FilterDate"].ToString();
-            TimeSpan time = new TimeSpan(23, 59, 59);
-            DateTime date = DateTime.Parse(tempDate).Add(time);
+            DateTime date = DateTime.Now;
+            if(!string.IsNullOrWhiteSpace(Request.Form["date"]))
+            {
+                var tempDate = Request.Form["FilterDate"].ToString();
+                TimeSpan time = new TimeSpan(23, 59, 59);
+                date = DateTime.Parse(tempDate).Add(time);
+            }
+           
 
             ViewBag.chosenDate = date;
 
