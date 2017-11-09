@@ -9,12 +9,14 @@
     <div class="form-horizontal">
         <hr />
         <div class="form-group">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <label style="margin-left: 15px">Chọn ngày: </label>
-                <input type="date" name="date" id="date" value="@(Request.Form["date"])" class="form-control" />
-                <input type="submit" value="Thống kê" />
+                <input type="date" name="date" id="date" 
+                value="@(Request.Form["date"])" class="form-control" 
+                       onchange="this.form.submit()"/>
             </div>
         </div>
+        
         <div class="form-group">
             <table class="table">
                 <tr>

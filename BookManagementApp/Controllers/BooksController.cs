@@ -46,8 +46,6 @@ namespace BookManagementApp.Controllers
         }
 
         // POST: Books/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,PublisherID,GenreID,Name,Author,PublicationDate,SellingPrice,PurchasePrice")] Book book)
@@ -97,30 +95,6 @@ namespace BookManagementApp.Controllers
             ViewBag.GenreID = new SelectList(db.Genres, "ID", "Name", book.GenreID);
             ViewBag.PublisherID = new SelectList(db.Publishers, "ID", "Name", book.PublisherID);
             return View(book);
-        }
-
-        // GET: Books/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Book book = db.Books.Include(b => b.Genre).Include(b => b.Publisher).SingleOrDefault(a => a.ID == id);
-            if (book == null)
-            {
-                return HttpNotFound();
-            }
-            return View(book);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

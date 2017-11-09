@@ -26,6 +26,7 @@ namespace BookManagementApp.Controllers
                 TimeSpan time = new TimeSpan(23, 59, 59);
                 filterDate = DateTime.Parse(tempDate).Add(time);
             }
+            ViewBag.filterDate = filterDate;
 
             // get all debts from all publishers
             int totalDebt = 0;
