@@ -43,7 +43,7 @@ namespace BookManagementApp.Controllers
                 bookID = Convert.ToInt32(tempBookID);
 
             DateTime date = DateTime.Now;
-            if(!string.IsNullOrWhiteSpace(Request.Form["date"]))
+            if(!string.IsNullOrWhiteSpace(Request.Form["FilterDate"]))
             {
                 var tempDate = Request.Form["FilterDate"].ToString();
                 TimeSpan time = new TimeSpan(23, 59, 59);

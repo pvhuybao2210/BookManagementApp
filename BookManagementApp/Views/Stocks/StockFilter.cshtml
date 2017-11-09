@@ -5,6 +5,8 @@
 }
 <h2>KẾT QUẢ LỌC</h2>
 
+<br />
+
 @using (Html.BeginForm("StockFilter", "Stocks", FormMethod.Post))
 {
     @Html.DropDownList("Books", "-------- Tất cả sách --------")
@@ -35,16 +37,20 @@
     </tr>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-        </tr>
+        if (item != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+            </tr>
+        }
+
     }
 </table>
