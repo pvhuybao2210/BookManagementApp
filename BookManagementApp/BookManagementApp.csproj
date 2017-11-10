@@ -232,7 +232,6 @@
     <Content Include="Views\Agencies\Create.cshtml" />
     <Content Include="Views\Agencies\Edit.cshtml" />
     <Content Include="Views\Agencies\Index.cshtml" />
-    <Content Include="Views\Home\StockFilter.cshtml" />
     <Content Include="Views\Receipts\Create.cshtml" />
     <Content Include="Views\Receipts\Details.cshtml" />
     <Content Include="Views\Receipts\Index.cshtml" />
