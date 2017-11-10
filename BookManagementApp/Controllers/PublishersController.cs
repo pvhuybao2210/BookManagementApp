@@ -39,6 +39,17 @@ namespace BookManagementApp.Controllers
             {
                 db.Publishers.Add(publisher);
                 db.SaveChanges();
+                
+                Debt no = new Debt()
+                {
+                    PublisherID = publisher.ID,
+                    Amount = 0,
+                    Date = DateTime.Now
+                };
+
+                db.Debts.Add(no);
+                db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
 
