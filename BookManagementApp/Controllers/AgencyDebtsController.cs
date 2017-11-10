@@ -23,7 +23,7 @@ namespace BookManagementApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(int agencyID)
+        public ActionResult Index(int? agencyID)
         {
             ViewBag.agencies = new SelectList(db.Agencies, "ID", "Name");
 

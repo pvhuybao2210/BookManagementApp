@@ -16,7 +16,7 @@
                 new { @class = "form-control", @style="display:inline" })
                 
                 <label style="margin-left: 15px">Chọn ngày: </label>
-                <input type="date" name="date" id="date" value="" class="form-control" />
+                <input type="date" name="date" id="date" value="@Request.Form["date"]" class="form-control" />
                 
                 <input type="submit" value="Thống kê" />
             </div>
@@ -44,7 +44,11 @@
                     }
                     <tr>
                         <td style="padding-right: 155px" colspan="4" class="text-right">
-                           <b>Tổng tiền nợ: </b> @String.Format("{0:N0}",ViewBag.total)
+                           <b>Tổng tiền nợ: </b> 
+                            @if (ViewBag.total != null)
+                            {
+                              <span> @String.Format("{0:N0}", ViewBag.total)</span>
+                            }
                         </td>
                     </tr>
                 </table>

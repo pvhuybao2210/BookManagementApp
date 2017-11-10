@@ -23,7 +23,7 @@ namespace BookManagementApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(int publisherID)
+        public ActionResult Index(int? publisherID)
         {
             ViewBag.publishers = new SelectList(db.Publishers, "ID", "Name");
 
@@ -44,7 +44,7 @@ namespace BookManagementApp.Controllers
                 }
                 
                 int totalDebt = 0;
-                int totalAgencyPay = 0;
+                int totalPayment = 0;
 
                 List<Receipt> receipts = db.Receipts
                                                 .Where(s => DbFunctions.TruncateTime(s.Date) <= filterDate
@@ -95,13 +95,13 @@ namespace BookManagementApp.Controllers
                     {
                         if(y.Book.PublisherID == publisherID)
                         {
-                            totalAgencyPay += (y.Quantity * y.UnitPrice);
+                            totalPayment += (y.Quantity * y.UnitPrice);
                         }
                     }
                 }
 
                 ViewBag.totalDebt = totalDebt;
-                ViewBag.totalAgencyPay = totalAgencyPay;
+                ViewBag.totalAgencyPay = totalPayment;
                 ViewBag.date = filterDate;
 
             }
